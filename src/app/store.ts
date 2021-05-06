@@ -3,7 +3,7 @@ import createSagaMiddleware from "redux-saga"
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import inboxReducer from './reducer'
-import fetchNewEmailAddressSaga from "./sagas";
+import {fetchNewEmailAddressSaga} from "./sagas";
 
 const sagaMiddleware = createSagaMiddleware()
 

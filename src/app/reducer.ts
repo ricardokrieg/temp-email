@@ -4,7 +4,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit"
 const initialState: IInbox = {
   emailAddress: '',
   timestamp: 0,
-  emails: [],
+  messages: [],
 }
 
 const inboxSlice = createSlice({

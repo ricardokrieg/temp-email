@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import './App.css'
 import Inbox from "./app/Inbox/Inbox"
-import {useAppDispatch, useAppSelector} from "./app/hooks";
+import {useAppDispatch, useAppSelector} from "./app/hooks"
 
 function App() {
   const inbox = useAppSelector((state) => state.inbox)

@@ -1,8 +1,9 @@
-import {useAppDispatch, useAppSelector} from "../hooks"
+import {useAppSelector} from "../hooks"
 import EmailAddress from "./EmailAddress"
+import ResetEmailAddress from "./ResetEmailAddress"
 import Loading from "./Loading"
 
-export interface IEmail {
+export interface IMessage {
   sender: string
   receiver: string
   timestamp: number
@@ -13,12 +14,11 @@ export interface IEmail {
 export interface IInbox {
   emailAddress: string
   timestamp: number
-  emails: [IEmail?]
+  messages: [IMessage?]
 }
 
 function Inbox() {
   const inbox = useAppSelector((state) => state.inbox)
-  const dispatch = useAppDispatch()
 
   if (!inbox.emailAddress) {
     return <Loading />
@@ -27,6 +27,7 @@ function Inbox() {
   return (
     <div>
       <EmailAddress emailAddress={inbox.emailAddress} />
+      <ResetEmailAddress />
     </div>
   )
 }
