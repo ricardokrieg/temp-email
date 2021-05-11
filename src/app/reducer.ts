@@ -6,6 +6,7 @@ const initialState: IInbox = {
   emailAddress: '',
   timestamp: 0,
   messages: [],
+  message: null,
 }
 
 const inboxSlice = createSlice({
@@ -23,8 +24,11 @@ const inboxSlice = createSlice({
         state.messages = [ ...state.messages, ...action.payload ]
       }
     },
-  }
+    setMessage: (state, action: PayloadAction<IMessage>) => {
+      state.message = action.payload
+    },
+  },
 })
 
-export const {setEmailAddress, setTimestamp, addMessages} = inboxSlice.actions
+export const {setEmailAddress, setTimestamp, addMessages, setMessage} = inboxSlice.actions
 export default inboxSlice.reducer

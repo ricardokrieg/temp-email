@@ -3,7 +3,9 @@ import EmailAddress from "./EmailAddress"
 import ResetEmailAddress from "./ResetEmailAddress"
 import Messages from "./Messages"
 import Loading from "./Loading"
-import {useEffect} from "react";
+import React, {useEffect} from "react"
+import {Route, Switch, useRouteMatch} from "react-router-dom"
+import MessageDetails from "./MessageDetails"
 
 export interface IMessage {
   id: string
@@ -18,12 +20,14 @@ export interface IInbox {
   emailAddress: string
   timestamp: number
   messages: [IMessage?]
+  message: IMessage | null
 }
 
 function Inbox() {
   const inbox = useAppSelector((state) => state.inbox)
   const {emailAddress, timestamp, messages} = inbox
   const dispatch = useAppDispatch()
+  const match = useRouteMatch()
 
   useEffect(() => {
     const fetchMessages = (email: string, timestamp: number) => {
@@ -50,7 +54,16 @@ function Inbox() {
     <div>
       <EmailAddress emailAddress={emailAddress} />
       <ResetEmailAddress />
-      <Messages messages={messages} />
+
+      <Switch>
+        <Route path={`/:messageId`}>
+          <MessageDetails />
+        </Route>
+
+        <Route path={`/`}>
+          <Messages messages={messages} />
+        </Route>
+      </Switch>
     </div>
   )
 }

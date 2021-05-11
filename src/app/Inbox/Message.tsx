@@ -2,13 +2,14 @@ import {IMessage} from "./Inbox"
 
 interface MessageProp {
   message: IMessage,
+  onClick: (message: IMessage) => void,
 }
 
 function Message(prop: MessageProp) {
-  const {message} = prop
+  const {message, onClick} = prop
 
   return (
-    <div>
+    <div onClick={() => { onClick(message) }}>
       {message.subject}
     </div>
   )

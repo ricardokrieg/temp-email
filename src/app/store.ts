@@ -10,6 +10,7 @@ const sagaMiddleware = createSagaMiddleware()
 const persistConfig = {
   key: 'TempEmail',
   storage,
+  whitelist: ['emailAddress']
 }
 
 const persistedReducer = persistReducer(persistConfig, inboxReducer)
