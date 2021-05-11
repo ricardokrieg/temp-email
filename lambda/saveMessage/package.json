@@ -1,0 +1,8 @@
+{
+  "name": "temp-email-savemessage",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "mailparser": "^3.2.0"
+  }
+}

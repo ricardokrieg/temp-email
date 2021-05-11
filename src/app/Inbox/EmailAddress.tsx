@@ -1,5 +1,5 @@
 interface EmailAddressProp {
-  emailAddress: string;
+  emailAddress: string,
 }
 
 function EmailAddress(prop: EmailAddressProp) {
@@ -10,4 +10,4 @@ function EmailAddress(prop: EmailAddressProp) {
   )
 }
 
-export default EmailAddress;
+export default EmailAddress

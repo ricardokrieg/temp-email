@@ -1,6 +1,13 @@
-export interface IFetchMessages {
+import {IMessage} from "./Inbox/Inbox"
+
+export interface IMessagesRequest {
   email: string,
   timestamp: number,
+}
+
+export interface IMessagesResponse {
+  timestamp: number,
+  messages: [IMessage?]
 }
 
 class Api {
@@ -17,7 +24,7 @@ class Api {
     return data.emailAddress
   }
 
-  static async fetchMessages(params: IFetchMessages): Promise<string> {
+  static async fetchMessages(params: IMessagesRequest): Promise<IMessagesResponse> {
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -28,7 +35,10 @@ class Api {
     const response = await fetch(url + '?' + new URLSearchParams(params), requestOptions)
     const data = await response.json()
 
-    return data.emailAddress
+    return {
+      timestamp: data.timestamp,
+      messages: data.messages,
+    }
   }
 }
 

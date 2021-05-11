@@ -9,9 +9,9 @@ function ResetEmailAddress() {
 
   return (
     <div>
-      <a href='javascript:void(0)' onClick={onClick}>
+      <button onClick={onClick}>
         Mudar
-      </a>
+      </button>
     </div>
   )
 }
