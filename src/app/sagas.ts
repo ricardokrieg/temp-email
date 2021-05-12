@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import Api from './api'
-import {setEmailAddress, setTimestamp, addMessages} from './reducer'
+import {setEmailAddress, setTimestamp, addMessages, removeMessage} from './reducer'
 import {PayloadAction} from "@reduxjs/toolkit"
 
 function* fetchNewEmailAddress() {
@@ -32,7 +32,23 @@ function* fetchMessagesSaga() {
   yield takeLatest("FETCH_MESSAGES", fetchMessages)
 }
 
+function* deleteMessage(action: PayloadAction) {
+  try {
+    // @ts-ignore
+    yield put(removeMessage(action.payload.message))
+    // @ts-ignore
+    yield call(Api.deleteMessage, action.payload)
+  } catch (e) {
+    yield put({type: "DELETE_MESSAGE_FAIL", message: e.message})
+  }
+}
+
+function* deleteMessageSaga() {
+  yield takeLatest("DELETE_MESSAGE", deleteMessage)
+}
+
 export {
   fetchNewEmailAddressSaga,
   fetchMessagesSaga,
+  deleteMessageSaga,
 }

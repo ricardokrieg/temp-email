@@ -7,7 +7,12 @@ export interface IMessagesRequest {
 
 export interface IMessagesResponse {
   timestamp: number,
-  messages: [IMessage?]
+  messages: [IMessage?],
+}
+
+export interface IDeleteMessageRequest {
+  emailAddress: string,
+  message: IMessage,
 }
 
 class Api {
@@ -39,6 +44,19 @@ class Api {
       timestamp: data.timestamp,
       messages: data.messages,
     }
+  }
+
+  static async deleteMessage(params: IDeleteMessageRequest): Promise<boolean> {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    }
+
+    const url = 'https://xi55apsux5.execute-api.us-east-1.amazonaws.com/deleteMessage'
+    const requestParams = { email: params.emailAddress, messageId: params.message.id }
+    await fetch(url + '?' + new URLSearchParams(requestParams), requestOptions)
+
+    return true
   }
 }
 

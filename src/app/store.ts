@@ -3,7 +3,7 @@ import createSagaMiddleware from "redux-saga"
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import inboxReducer from './reducer'
-import {fetchNewEmailAddressSaga, fetchMessagesSaga} from "./sagas";
+import {fetchNewEmailAddressSaga, fetchMessagesSaga, deleteMessageSaga} from "./sagas";
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -26,6 +26,7 @@ export const persistor = persistStore(store)
 
 sagaMiddleware.run(fetchNewEmailAddressSaga)
 sagaMiddleware.run(fetchMessagesSaga)
+sagaMiddleware.run(deleteMessageSaga)
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

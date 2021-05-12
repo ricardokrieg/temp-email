@@ -27,8 +27,13 @@ const inboxSlice = createSlice({
     setMessage: (state, action: PayloadAction<IMessage>) => {
       state.message = action.payload
     },
+    removeMessage: (state, action: PayloadAction<IMessage>) => {
+      state.message = null
+      // @ts-ignore
+      state.messages = state.messages.filter(message => message?.id !== action.payload.id)
+    },
   },
 })
 
-export const {setEmailAddress, setTimestamp, addMessages, setMessage} = inboxSlice.actions
+export const {setEmailAddress, setTimestamp, addMessages, setMessage, removeMessage} = inboxSlice.actions
 export default inboxSlice.reducer
