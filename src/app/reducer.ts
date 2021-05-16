@@ -17,7 +17,9 @@ const inboxSlice = createSlice({
       state.emailAddress = action.payload
     },
     setTimestamp: (state, action: PayloadAction<number>) => {
-      state.timestamp = action.payload
+      if (state.timestamp !== action.payload) {
+        state.timestamp = action.payload
+      }
     },
     addMessages: (state, action: PayloadAction<[IMessage?]>) => {
       if (!isEmpty(action.payload)) {

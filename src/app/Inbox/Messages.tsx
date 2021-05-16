@@ -6,12 +6,13 @@ import {useAppDispatch} from "../hooks"
 import {setMessage} from "../reducer"
 
 interface MessagesProp {
+  isWorking: boolean,
   emailAddress: string,
   messages: [IMessage?]
 }
 
 function Messages(prop: MessagesProp) {
-  const {emailAddress, messages} = prop
+  const {isWorking, emailAddress, messages} = prop
   const history = useHistory()
   const dispatch = useAppDispatch()
 
@@ -30,6 +31,8 @@ function Messages(prop: MessagesProp) {
 
   return (
     <div>
+      {!isWorking && <div>Parado</div> }
+
       {map(messages, (message: IMessage) =>
         <Message message={message} key={message.id} onClick={onClick} onDelete={onDelete} />
       )}

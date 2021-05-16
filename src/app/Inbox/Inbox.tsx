@@ -3,7 +3,7 @@ import EmailAddress from "./EmailAddress"
 import ResetEmailAddress from "./ResetEmailAddress"
 import Messages from "./Messages"
 import Loading from "./Loading"
-import React, {useEffect} from "react"
+import React, {useEffect, useRef, useState} from "react"
 import {Route, Switch} from "react-router-dom"
 import MessageDetails from "./MessageDetails"
 
@@ -27,21 +27,39 @@ function Inbox() {
   const inbox = useAppSelector((state) => state.inbox)
   const {emailAddress, timestamp, messages} = inbox
   const dispatch = useAppDispatch()
+  const [isWorking, setIsWorking] = useState(false)
+  const intervalRef = useRef<ReturnType<typeof setTimeout>>()
 
   useEffect(() => {
     const fetchMessages = (email: string, timestamp: number) => {
       dispatch({ type: 'FETCH_MESSAGES', payload: { email, timestamp } })
     }
 
-    const intervalRef = setInterval(() => {
+    setIsWorking(true)
+    let requestCount = 1
+
+    intervalRef.current = setInterval(() => {
       if (emailAddress) {
+        console.log(`Request ${requestCount}`)
+
+        if (requestCount >= 20) {
+          console.log(`${requestCount} requests without new messages. Stopping`)
+          setIsWorking(false)
+          if (intervalRef.current) {
+            clearInterval(intervalRef.current)
+          }
+          return
+        }
+        requestCount++
+
         fetchMessages(emailAddress, timestamp)
       }
     }, 10000)
 
     return () => {
-      console.log('Cleanup')
-      clearInterval(intervalRef)
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current)
+      }
     }
   }, [emailAddress, timestamp, dispatch])
 
@@ -60,7 +78,7 @@ function Inbox() {
         </Route>
 
         <Route path={`/`}>
-          <Messages emailAddress={emailAddress} messages={messages} />
+          <Messages isWorking={isWorking} emailAddress={emailAddress} messages={messages} />
         </Route>
       </Switch>
     </div>
