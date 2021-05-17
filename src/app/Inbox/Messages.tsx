@@ -1,4 +1,4 @@
-import {map} from "lodash"
+import {map, isEmpty} from "lodash"
 import {useHistory} from "react-router-dom"
 import {IMessage} from "./Inbox"
 import Message from "./Message"
@@ -6,13 +6,14 @@ import {useAppDispatch} from "../hooks"
 import {setMessage} from "../reducer"
 
 interface MessagesProp {
+  isLoading: boolean,
   isWorking: boolean,
   emailAddress: string,
   messages: [IMessage?]
 }
 
 function Messages(prop: MessagesProp) {
-  const {isWorking, emailAddress, messages} = prop
+  const {isLoading, isWorking, emailAddress, messages} = prop
   const history = useHistory()
   const dispatch = useAppDispatch()
 
@@ -29,13 +30,25 @@ function Messages(prop: MessagesProp) {
     dispatch({ type: 'DELETE_MESSAGE', payload: { emailAddress, message } })
   }
 
+  const renderMessages = () => {
+    if (isEmpty(messages)) {
+      return (<div>Nenhuma mensagem</div>)
+    }
+
+    return (map(messages, (message: IMessage) =>
+      <Message message={message} key={message.id} onClick={onClick} onDelete={onDelete} />
+    ))
+  }
+
+  if (isLoading) {
+    return (<div>Carregando</div>)
+  }
+
   return (
     <div>
-      {!isWorking && <div>Parado</div> }
+      {!isWorking && <div>Parado</div>}
 
-      {map(messages, (message: IMessage) =>
-        <Message message={message} key={message.id} onClick={onClick} onDelete={onDelete} />
-      )}
+      {renderMessages()}
     </div>
   )
 }

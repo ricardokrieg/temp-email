@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import Api from './api'
-import {setEmailAddress, setTimestamp, addMessages, removeMessage} from './reducer'
+import {setEmailAddress, setTimestamp, addMessages, removeMessage, setLoaded} from './reducer'
 import {PayloadAction} from "@reduxjs/toolkit"
 
 function* fetchNewEmailAddress() {
@@ -23,6 +23,7 @@ function* fetchMessages(action: PayloadAction) {
     const {timestamp, messages} = yield call(Api.fetchMessages, action.payload)
     yield put(setTimestamp(timestamp))
     yield put(addMessages(messages))
+    yield put(setLoaded(true))
   } catch (e) {
     yield put({type: "FETCH_MESSAGES_FAIL", message: e.message})
   }

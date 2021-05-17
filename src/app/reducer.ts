@@ -5,6 +5,7 @@ import {isEmpty} from 'lodash'
 const initialState: IInbox = {
   emailAddress: '',
   timestamp: 0,
+  loaded: false,
   messages: [],
   message: null,
 }
@@ -34,8 +35,11 @@ const inboxSlice = createSlice({
       // @ts-ignore
       state.messages = state.messages.filter(message => message?.id !== action.payload.id)
     },
+    setLoaded: (state, action: PayloadAction<boolean>) => {
+      state.loaded = action.payload
+    },
   },
 })
 
-export const {setEmailAddress, setTimestamp, addMessages, setMessage, removeMessage} = inboxSlice.actions
+export const {setEmailAddress, setTimestamp, addMessages, setMessage, removeMessage, setLoaded} = inboxSlice.actions
 export default inboxSlice.reducer
